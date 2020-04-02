@@ -1,5 +1,6 @@
 package disco
 
+import discord4j.core.`object`.reaction.ReactionEmoji
 import discord4j.core.event.domain.message.MessageCreateEvent
 import reactor.core.publisher.Mono
 
@@ -11,7 +12,13 @@ object Commands {
       .flatMap(_.createMessage("Pong!"))
       .`then`()
 
+  def pong (event: MessageCreateEvent): Mono[Void] =
+    event.getMessage
+      .addReaction(ReactionEmoji.unicode(Emoji.EYES))
+      .`then`()
+
   val commands = Map[String, Command](
-    "ping" -> ping
+    "ping" -> ping,
+    "pong" -> pong,
   )
 }
